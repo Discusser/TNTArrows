@@ -4,7 +4,6 @@ import io.github.discusser.tntarrows.TNTArrows;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.common.NeoForge;
 
 @Mod(TNTArrows.MOD_ID)
 public final class TNTArrowsNeoForge {

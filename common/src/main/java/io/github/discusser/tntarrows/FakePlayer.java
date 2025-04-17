@@ -2,29 +2,16 @@ package io.github.discusser.tntarrows;
 
 import com.google.common.collect.MapMaker;
 import com.mojang.authlib.GameProfile;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.Connection;
-import net.minecraft.network.PacketSendListener;
-import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.server.level.ClientInformation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.CommonListenerCookie;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
-import net.minecraft.stats.Stat;
-import net.minecraft.world.Container;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
-import net.minecraft.world.level.block.entity.SignBlockEntity;
-import net.minecraft.world.scores.PlayerTeam;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
 import java.util.Objects;
-import java.util.OptionalInt;
 import java.util.UUID;
 
 public class FakePlayer extends ServerPlayer {

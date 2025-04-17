@@ -1,6 +1,5 @@
 package io.github.discusser.tntarrows;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -39,7 +38,6 @@ public class TNTArrowProjectile extends AbstractArrow {
         this.setTntBlock(itemStack);
     }
 
-    @SuppressWarnings("unchecked")
     public void setTntBlock(ItemStack itemStack) {
         this.pickup = Pickup.CREATIVE_ONLY;
         this.setBaseDamage(0);
@@ -77,7 +75,9 @@ public class TNTArrowProjectile extends AbstractArrow {
                 this.remove(RemovalReason.DISCARDED);
             }
         } catch (ClassCastException e) {
-            TNTArrows.LOGGER.info("Tried exploding a TNT arrow that has an invalid TNT block: " + this.tntBlock.arch$registryName());
+            if (this.tntBlock != null) {
+                TNTArrows.LOGGER.info("Tried exploding a TNT arrow that has an invalid TNT block: " + this.tntBlock.arch$registryName());
+            }
             this.remove(RemovalReason.DISCARDED);
         }
     }

@@ -3,7 +3,6 @@ package io.github.discusser.tntarrows;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Position;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;

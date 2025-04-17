@@ -1,9 +1,7 @@
 package io.github.discusser.tntarrows.fabric;
 
-import io.github.discusser.tntarrows.TNTArrowItem;
-import net.fabricmc.api.ModInitializer;
-
 import io.github.discusser.tntarrows.TNTArrows;
+import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.world.level.block.DispenserBlock;
 
