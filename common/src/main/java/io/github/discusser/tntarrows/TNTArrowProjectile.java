@@ -61,15 +61,18 @@ public class TNTArrowProjectile extends AbstractArrow {
 
     public void explode(HitResult hitResult) {
         try {
-            if (!this.level().isClientSide && this.tntBlock != null) {
+            if ((hitResult.getType() == HitResult.Type.BLOCK || hitResult.getType() == HitResult.Type.ENTITY) &&
+                    !this.level().isClientSide && this.tntBlock != null) {
                 // This is done because the code has to work on fabric aswell
                 // NeoForge provides a `onCaughtFire` method but fabric does not give any methods that replace the static `explode`
                 // so we have to improvise and simulate a fire charge use.
                 FakePlayer player = FakePlayer.get((ServerLevel) this.level());
+                player.getInventory().setItem(0, new ItemStack(Items.FIRE_CHARGE));
                 BlockHitResult blockHitResult = new BlockHitResult(hitResult.getLocation(), Direction.NORTH, this.blockPosition(), false);
                 BlockState blockState = this.tntBlock.defaultBlockState();
-                this.level().setBlock(this.blockPosition(), blockState, 0);
-                this.tntBlock.useItemOn(new ItemStack(Items.FIRE_CHARGE), blockState, this.level(), this.blockPosition(), player, InteractionHand.MAIN_HAND, blockHitResult);
+                this.level().setBlock(this.blockPosition(), blockState, 11);
+                this.tntBlock.useItemOn(player.getInventory().getItem(0), blockState, this.level(), this.blockPosition(), player, InteractionHand.MAIN_HAND, blockHitResult);
+                player.getInventory().setItem(0, ItemStack.EMPTY);
                 PrimedTnt entity = (PrimedTnt) this.level().getEntity(ENTITY_COUNTER.get());
                 if (entity != null) entity.setFuse(0);
                 this.remove(RemovalReason.DISCARDED);
