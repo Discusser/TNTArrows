@@ -42,6 +42,10 @@ dependencies {
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
 }
 
+loom {
+    accessWidenerPath = file("src/main/resources/tntarrows.accesswidener")
+}
+
 processResources {
     inputs.property 'version', project.version
 

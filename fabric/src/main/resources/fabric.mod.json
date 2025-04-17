@@ -16,6 +16,9 @@
   "entrypoints": {
     "main": [
       "io.github.discusser.tntarrows.fabric.TNTArrowsFabric"
+    ],
+    "jei_mod_plugin": [
+      "io.github.discusser.tntarrows.fabric.TNTArrowsFabricJEIPlugin"
     ]
   },
   "depends": {
