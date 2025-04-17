@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "minecraft:arrow"
+    },
+    {
+      "item": "minecraft:tnt"
+    }
+  ],
+  "result": {
+    "id": "tntarrows:tnt_arrow",
+    "components": {
+      "tntarrows:tnt_block": "minecraft:tnt"
+    }
+  }
+}

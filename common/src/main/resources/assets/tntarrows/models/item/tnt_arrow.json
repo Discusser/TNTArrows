@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "tntarrows:item/tnt_arrow_base",
+    "layer1": "tntarrows:item/tnt_arrow_overlay"
+  }
+}
