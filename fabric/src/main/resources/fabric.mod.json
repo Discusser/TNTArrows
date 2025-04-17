@@ -3,12 +3,13 @@
   "id": "tntarrows",
   "version": "${version}",
   "name": "TNT Arrows",
-  "description": "sfjhsaafhai",
+  "description": "Adds arrows that can be mixed with TNTs for explosive effects!",
   "authors": [
     "Discusser"
   ],
   "contact": {
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "issues": "https://github.com/Discusser/TNTArrows/issues",
+    "sources": "https://github.com/Discusser/TNTArrows"
   },
   "license": "MIT",
   "icon": "assets/tntarrows/icon.png",

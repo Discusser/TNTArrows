@@ -1,17 +1,17 @@
 modLoader = "javafml"
 loaderVersion = "[4,)"
 #issueTrackerURL = ""
-license = "Insert License Here"
+license = "MIT"
 
 [[mods]]
 modId = "tntarrows"
 version = "${version}"
 displayName = "TNT Arrows"
-authors = "Me!"
+authors = "Discusser"
 description = '''
-This is an example description! Tell everyone what your mod is about!
+Adds arrows that can be mixed with TNTs for explosive effects!
 '''
-#logoFile = ""
+logoFile = "assets/tntarrows/icon.png"
 
 [[dependencies.tntarrows]]
 modId = "neoforge"
@@ -33,6 +33,3 @@ type = "required"
 versionRange = "[13.0.8,)"
 ordering = "AFTER"
 side = "BOTH"
-
-[[mixins]]
-config = "tntarrows.mixins.json"
