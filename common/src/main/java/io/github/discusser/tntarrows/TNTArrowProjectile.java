@@ -28,12 +28,14 @@ public class TNTArrowProjectile extends AbstractArrow {
         this.setTntBlock(itemStack);
     }
 
-    public TNTArrowProjectile(Level level, double d, double e, double f, ItemStack itemStack, @Nullable ItemStack itemStack2) {
+    public TNTArrowProjectile(Level level, double d, double e, double f, ItemStack itemStack,
+            @Nullable ItemStack itemStack2) {
         super(EntityType.ARROW, d, e, f, level, itemStack, itemStack2);
         this.setTntBlock(itemStack);
     }
 
-    public TNTArrowProjectile(Level level, LivingEntity livingEntity, ItemStack itemStack, @Nullable ItemStack itemStack2) {
+    public TNTArrowProjectile(Level level, LivingEntity livingEntity, ItemStack itemStack,
+            @Nullable ItemStack itemStack2) {
         super(EntityType.ARROW, livingEntity, level, itemStack, itemStack2);
         this.setTntBlock(itemStack);
     }
@@ -47,7 +49,7 @@ public class TNTArrowProjectile extends AbstractArrow {
             return;
         }
         try {
-            this.tntBlock = (TntBlock) BuiltInRegistries.BLOCK.get(location);
+            this.tntBlock = (TntBlock) BuiltInRegistries.BLOCK.getValue(location);
         } catch (ClassCastException e) {
             TNTArrows.LOGGER.info("Tried creating a TNT arrow that has an invalid TNT block: " + location);
             this.tntBlock = null;
@@ -66,20 +68,25 @@ public class TNTArrowProjectile extends AbstractArrow {
                 // This is done because the code has to work on fabric aswell
                 // NeoForge provides a `onCaughtFire` method but fabric does not give any methods that replace the static `explode`
                 // so we have to improvise and simulate a fire charge use.
-                FakePlayer player = FakePlayer.get((ServerLevel) this.level());
+                FakePlayer player = FakePlayer.get((ServerLevel) this.level(),
+                        ((TNTArrowItem) TNTArrows.TNT_ARROW.get()).getName(tntBlock.arch$registryName()).getString());
                 player.getInventory().setItem(0, new ItemStack(Items.FIRE_CHARGE));
-                BlockHitResult blockHitResult = new BlockHitResult(hitResult.getLocation(), Direction.NORTH, this.blockPosition(), false);
+                BlockHitResult blockHitResult = new BlockHitResult(hitResult.getLocation(), Direction.NORTH,
+                        this.blockPosition(), false);
                 BlockState blockState = this.tntBlock.defaultBlockState();
                 this.level().setBlock(this.blockPosition(), blockState, 11);
-                this.tntBlock.useItemOn(player.getInventory().getItem(0), blockState, this.level(), this.blockPosition(), player, InteractionHand.MAIN_HAND, blockHitResult);
+                this.tntBlock.useItemOn(player.getInventory().getItem(0), blockState, this.level(),
+                        this.blockPosition(), player, InteractionHand.MAIN_HAND, blockHitResult);
                 player.getInventory().setItem(0, ItemStack.EMPTY);
                 PrimedTnt entity = (PrimedTnt) this.level().getEntity(ENTITY_COUNTER.get());
-                if (entity != null) entity.setFuse(0);
+                if (entity != null)
+                    entity.setFuse(0);
                 this.remove(RemovalReason.DISCARDED);
             }
         } catch (ClassCastException e) {
             if (this.tntBlock != null) {
-                TNTArrows.LOGGER.info("Tried exploding a TNT arrow that has an invalid TNT block: " + this.tntBlock.arch$registryName());
+                TNTArrows.LOGGER.info("Tried exploding a TNT arrow that has an invalid TNT block: " +
+                        this.tntBlock.arch$registryName());
             }
             this.remove(RemovalReason.DISCARDED);
         }

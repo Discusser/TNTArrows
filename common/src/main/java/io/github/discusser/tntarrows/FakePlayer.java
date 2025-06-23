@@ -16,11 +16,10 @@ import java.util.UUID;
 
 public class FakePlayer extends ServerPlayer {
     public static final UUID DEFAULT_UUID = UUID.fromString("41C82C87-7AfB-4024-BA57-13D2C99CAE77");
-    private static final GameProfile DEFAULT_PROFILE;
     private static final Map<FakePlayerKey, FakePlayer> FAKE_PLAYER_MAP;
 
-    public static FakePlayer get(ServerLevel world) {
-        return get(world, DEFAULT_PROFILE);
+    public static FakePlayer get(ServerLevel world, String name) {
+        return get(world, new GameProfile(DEFAULT_UUID, name));
     }
 
     public static FakePlayer get(ServerLevel world, GameProfile profile) {
@@ -35,12 +34,10 @@ public class FakePlayer extends ServerPlayer {
     }
 
     static {
-        DEFAULT_PROFILE = new GameProfile(DEFAULT_UUID, "[Minecraft]");
         FAKE_PLAYER_MAP = (new MapMaker()).weakValues().makeMap();
     }
 
     private record FakePlayerKey(ServerLevel world, GameProfile profile) {}
-
 
     public static final class FakePlayerNetworkHandler extends ServerGamePacketListenerImpl {
         private static final Connection FAKE_CONNECTION = new FakeClientConnection();

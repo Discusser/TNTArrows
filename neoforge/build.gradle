@@ -1,5 +1,5 @@
 plugins {
-    id 'com.github.johnrengelman.shadow'
+    id 'com.gradleup.shadow'
 }
 
 architectury {
@@ -37,20 +37,19 @@ dependencies {
     // Architectury API. This is optional, and you can comment it out if you don't need it.
     modImplementation "dev.architectury:architectury-neoforge:$rootProject.architectury_api_version"
 
-    // compile against the JEI API but do not include it at runtime
-    compileOnly("mezz.jei:jei-${minecraft_version_short}-neoforge-api:${jei_version}")
-    // at runtime, use the full JEI jar for NeoForge
-    runtimeOnly("mezz.jei:jei-${minecraft_version_short}-neoforge:${jei_version}")
-
     common(project(path: ':common', configuration: 'namedElements')) { transitive false }
     shadowBundle project(path: ':common', configuration: 'transformProductionNeoForge')
 }
 
 processResources {
     inputs.property 'version', project.version
+    inputs.property 'neoforge_version', neoforge_version
+    inputs.property 'minecraft_version', minecraft_version
+    inputs.property 'architectury_version', architectury_api_version
 
     filesMatching('META-INF/neoforge.mods.toml') {
-        expand version: project.version
+        expand(version: project.version, neoforge_version: neoforge_version,
+                minecraft_version: minecraft_version, architectury_version: architectury_api_version)
     }
 }
 
