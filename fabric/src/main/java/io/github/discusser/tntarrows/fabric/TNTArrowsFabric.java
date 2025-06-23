@@ -2,7 +2,8 @@ package io.github.discusser.tntarrows.fabric;
 
 import io.github.discusser.tntarrows.TNTArrows;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.level.block.DispenserBlock;
 
 public final class TNTArrowsFabric implements ModInitializer {
@@ -14,7 +15,8 @@ public final class TNTArrowsFabric implements ModInitializer {
 
         // Run our common setup.
         TNTArrows.init();
-        ColorProviderRegistry.ITEM.register(TNTArrows.ARROW_COLOR, TNTArrows.TNT_ARROW.get());
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.COMBAT)
+                .register(entries -> entries.accept(TNTArrows.BASE_TNT_ARROW.get()));
         DispenserBlock.registerProjectileBehavior(TNTArrows.TNT_ARROW.get());
     }
 }

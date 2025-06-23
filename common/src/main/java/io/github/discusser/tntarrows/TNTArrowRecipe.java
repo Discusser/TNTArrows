@@ -1,6 +1,10 @@
 package io.github.discusser.tntarrows;
 
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -34,8 +38,7 @@ public class TNTArrowRecipe extends CustomRecipe {
         if (!hasArrows)
             return false;
 
-        boolean hasTnt = items.stream().anyMatch(this::isTntItem);
-        return hasTnt;
+        return items.stream().anyMatch(this::isTntItem);
     }
 
     @Override
@@ -51,12 +54,26 @@ public class TNTArrowRecipe extends CustomRecipe {
     }
 
     @Override
-    public boolean canCraftInDimensions(int i, int j) {
-        return i * j >= 2;
+    public @NotNull RecipeSerializer<? extends CustomRecipe> getSerializer() {
+        return TNTArrows.RECIPE_SERIALIZER_TNT_ARROW.get();
     }
 
-    @Override
-    public @NotNull RecipeSerializer<?> getSerializer() {
-        return TNTArrows.RECIPE_SERIALIZER_TNT_ARROW.get();
+    public static class Serializer implements RecipeSerializer<TNTArrowRecipe> {
+        public static final StreamCodec<RegistryFriendlyByteBuf, TNTArrowRecipe> STREAM_CODEC;
+        private static final MapCodec<TNTArrowRecipe> CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(
+                CraftingBookCategory.CODEC.fieldOf("category").orElse(CraftingBookCategory.MISC)
+                        .forGetter(CustomRecipe::category)).apply(instance, TNTArrowRecipe::new));
+
+        static {
+            STREAM_CODEC = StreamCodec.composite(CraftingBookCategory.STREAM_CODEC, CustomRecipe::category, TNTArrowRecipe::new);
+        }
+
+        public @NotNull MapCodec<TNTArrowRecipe> codec() {
+            return CODEC;
+        }
+
+        public @NotNull StreamCodec<RegistryFriendlyByteBuf, TNTArrowRecipe> streamCodec() {
+            return STREAM_CODEC;
+        }
     }
 }
