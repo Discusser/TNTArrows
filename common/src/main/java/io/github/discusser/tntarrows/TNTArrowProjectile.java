@@ -85,7 +85,7 @@ public class TNTArrowProjectile extends AbstractArrow {
             }
         } catch (ClassCastException e) {
             if (this.tntBlock != null) {
-                TNTArrows.LOGGER.info("Tried exploding a TNT arrow that has an invalid TNT block: " +
+                TNTArrows.LOGGER.warning("Tried exploding a TNT arrow that has an invalid TNT block: " +
                         this.tntBlock.arch$registryName());
             }
             this.remove(RemovalReason.DISCARDED);

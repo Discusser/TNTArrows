@@ -4,6 +4,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Position;
 import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -14,14 +15,15 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ArrowItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.MapColor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class TNTArrowItem extends ArrowItem {
     public TNTArrowItem(Properties properties) {
@@ -48,14 +50,10 @@ public class TNTArrowItem extends ArrowItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack itemStack, TooltipContext tooltipContext, List<Component> list,
-            TooltipFlag tooltipFlag) {
-        Component comp = getTntComponent(itemStack);
-        if (comp != null) {
-            comp = Component.translatable("tntarrows.mixed_with").append(comp);
-            list.add(comp);
-        }
-        super.appendHoverText(itemStack, tooltipContext, list, tooltipFlag);
+    public void appendHoverText(ItemStack itemStack, TooltipContext tooltipContext, TooltipDisplay tooltipDisplay,
+            Consumer<Component> consumer, TooltipFlag tooltipFlag) {
+        itemStack.addToTooltip(DataComponents.INSTRUMENT, tooltipContext, tooltipDisplay, consumer, tooltipFlag);
+        super.appendHoverText(itemStack, tooltipContext, tooltipDisplay, consumer, tooltipFlag);
     }
 
     @Override
