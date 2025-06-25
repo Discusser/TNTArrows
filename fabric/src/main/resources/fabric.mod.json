@@ -28,5 +28,6 @@
     "java": ">=21",
     "architectury": ">=${architectury_version}",
     "fabric-api": "*"
-  }
+  },
+  "accessWidener": "tntarrows.accesswidener"
 }
