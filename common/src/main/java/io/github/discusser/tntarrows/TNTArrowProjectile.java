@@ -1,5 +1,6 @@
 package io.github.discusser.tntarrows;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -73,10 +74,21 @@ public class TNTArrowProjectile extends AbstractArrow {
                 player.getInventory().setItem(0, new ItemStack(Items.FIRE_CHARGE));
                 BlockHitResult blockHitResult = new BlockHitResult(hitResult.getLocation(), Direction.NORTH,
                         this.blockPosition(), false);
+                BlockPos pos = blockHitResult.getBlockPos();
+                // If there's already a block at this position, we try to place the TNT elsewhere to avoid
+                // replacing blocks that shouldn't be exploded.
+                if (!this.level().isEmptyBlock(pos)) {
+                    for (Direction direction : Direction.values()) {
+                        if (this.level().isEmptyBlock(pos.relative(direction))) {
+                            pos = pos.relative(direction);
+                            break;
+                        }
+                    }
+                }
                 BlockState blockState = this.tntBlock.defaultBlockState();
-                this.level().setBlock(this.blockPosition(), blockState, 11);
+                this.level().setBlock(pos, blockState, 11);
                 this.tntBlock.useItemOn(player.getInventory().getItem(0), blockState, this.level(),
-                        this.blockPosition(), player, InteractionHand.MAIN_HAND, blockHitResult);
+                        pos, player, InteractionHand.MAIN_HAND, blockHitResult);
                 player.getInventory().setItem(0, ItemStack.EMPTY);
                 PrimedTnt entity = (PrimedTnt) this.level().getEntity(ENTITY_COUNTER.get());
                 if (entity != null)
